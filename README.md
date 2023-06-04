@@ -33,8 +33,8 @@ Atlast , free the host and device memory then reset the device and check for res
 ## kernel reduceUnrolling8
 
 ```python3
-Name : Vincent Isaac Jeyaraj J
-Reg No : 212220230060
+Name : Vijayaragavan ARR
+Reg No : 212220230059
 
 #include "common.h"
 #include <cuda_runtime.h>
@@ -1577,6 +1577,7 @@ root@MidPC:/home/student/Desktop#
 ![238111400-ebadaa00-2775-41d3-a081-d54408ffa334](https://github.com/ragav-47/PCA-Simple-warp-divergence---Implement-Sum-Reduction./assets/75235488/dc231371-c547-4e9a-901d-9e58935c6424)
 
 ### kernel reduceUnrolling16
+```python3
 Password: 
 root@MidPC:/home/student# cd Desktop
 root@MidPC:/home/student/Desktop# nvcc --version
@@ -1645,6 +1646,7 @@ gpu Cmptnroll   elapsed 0.000305 sec gpu_sum: 2139353471 <<<grid 4096 block 512>
                     0.00%  2.6700us         3     890ns     240ns  2.0700us  cuDeviceGetCount
                     0.00%     300ns         1     300ns     300ns     300ns  cuDeviceGetUuid
 root@MidPC:/home/student/Desktop#
+ ```
 ![238111471-0aef7741-c7a8-4c34-b4b3-a701fb4e68fd](https://github.com/ragav-47/PCA-Simple-warp-divergence---Implement-Sum-Reduction./assets/75235488/65561132-4200-4d4c-8fba-456b21bcb984)
 ![238111473-4dbde075-1712-423b-a29d-adaeed5cef3f](https://github.com/ragav-47/PCA-Simple-warp-divergence---Implement-Sum-Reduction./assets/75235488/e221f8ee-1d00-403a-b2ed-c22bd4b3c338)
 The time taken by the kernel reduceUnrolling16 is comparatively less to the kernal reduceUnrolling8 as each thread in the kernel reduceUnrolling16 handles 16 data blocks.
