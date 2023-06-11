@@ -731,8 +731,6 @@ int main(int argc, char **argv)
 ```
 ## kernel reduceUnrolling16
 ```python3
-Name : SAFA
-Reg No : 212220230040
 
 #include "common.h"
 #include <cuda_runtime.h>
