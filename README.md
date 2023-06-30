@@ -33,10 +33,14 @@ Atlast , free the host and device memory then reset the device and check for res
 ## kernel reduceUnrolling8
 
 ```python3
-U8.cu
-#include "common.h"
 #include <cuda_runtime.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+#include <windows.h>
+#include <device_launch_parameters.h>
+#include <windows.h>
 __global__ void reduceUnrolling8(int *g_idata, int *g_odata, unsigned int n)
 {
  // Set thread ID
@@ -146,10 +150,14 @@ int main()
 ```
 ## unroll16
 ```
-#include "common.h"
 #include <cuda_runtime.h>
 #include <stdio.h>
-#include <sys/time.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+#include <windows.h>
+#include <device_launch_parameters.h>
+#include <windows.h>
 // Kernel function declaration
 __global__ void reduceUnrolling16(int *g_idata, int *g_odata, unsigned int n);
 // Function to calculate elapsed time in milliseconds
