@@ -108,38 +108,50 @@ int main()
  dim3 blockSize(256); // 256 threads per block
  dim3 gridSize((n + blockSize.x * 8 - 1) / (blockSize.x * 8));
  // Start CPU timer
- struct timeval start_cpu, end_cpu;
- gettimeofday(&start_cpu, NULL);
- // Compute the sum on the CPU
- int sum_cpu = 0;
- for (unsigned int i = 0; i < n; i++)
- {
- sum_cpu += h_idata[i];
- }
- // Stop CPU timer
- gettimeofday(&end_cpu, NULL);
- double elapsedTime_cpu = getElapsedTime(start_cpu, end_cpu);
- // Start GPU timer
- struct timeval start_gpu, end_gpu;
- gettimeofday(&start_gpu, NULL);
- // Launch the reduction kernel
- reduceUnrolling8<<<gridSize, blockSize>>>(d_idata, d_odata, n);
- // Copy the result from device to host
- cudaMemcpy(h_odata, d_odata, size, cudaMemcpyDeviceToHost);
- // Compute the final sum on the GPU
- int sum_gpu = 0;
- for (unsigned int i = 0; i < gridSize.x; i++)
- {
- sum_gpu += h_odata[i];
- }
- // Stop GPU timer
- gettimeofday(&end_gpu, NULL);
- double elapsedTime_gpu = getElapsedTime(start_gpu, end_gpu);
- // Print the results and elapsed times
- printf("CPU Sum: %d\n", sum_cpu);
- printf("GPU Sum: %d\n", sum_gpu);
- printf("CPU Elapsed Time: %.2f ms\n", elapsedTime_cpu);
- printf("GPU Elapsed Time: %.2f ms\n", elapsedTime_gpu);
+ 
+	// Start CPU timer
+	cudaEvent_t start, stop;
+	float elapsedTimeCPU, elapsedTimeGPU;
+
+	// Measure time for CPU Matrix Multiplication
+	cudaEventCreate(&start);
+	cudaEventCreate(&stop);
+	cudaEventRecord(start, 0);
+	int sum_cpu = 0;
+	for (unsigned int i = 0; i < n; i++)
+	{
+		sum_cpu += h_idata[i];
+	}
+	cudaEventRecord(stop, 0);
+	cudaEventSynchronize(stop);
+	cudaEventElapsedTime(&elapsedTimeCPU, start, stop);
+	
+	// Compute the sum on the CPU
+	
+	// Start GPU timer
+	cudaEventCreate(&start);
+	cudaEventCreate(&stop);
+	cudaEventRecord(start, 0);
+	reduceUnrolling8 << <gridSize, blockSize >> > (d_idata, d_odata, n);
+	
+	
+	// Copy the result from device to host
+	cudaMemcpy(h_odata, d_odata, size, cudaMemcpyDeviceToHost);
+	// Compute the final sum on the GPU
+	int sum_gpu = 0;
+	for (unsigned int i = 0; i < gridSize.x; i++)
+	{
+		sum_gpu += h_odata[i];
+	}
+	cudaEventRecord(stop, 0);
+	cudaEventSynchronize(stop);
+	cudaEventElapsedTime(&elapsedTimeGPU, start, stop);
+	// Stop GPU timer
+	// Print the results and elapsed times
+	printf("CPU Sum: %d\n", sum_cpu);
+	printf("GPU Sum: %d\n", sum_gpu);
+	printf("CPU Time: %f ms\n", elapsedTimeCPU);
+	printf("GPU Time: %f ms\n", elapsedTimeGPU);
  // Free memory
  free(h_idata);
  free(h_odata);
@@ -190,38 +202,50 @@ int main()
  dim3 blockSize(256); // 256 threads per block
  dim3 gridSize((n + blockSize.x * 16 - 1) / (blockSize.x * 16));
  // Start CPU timer
- struct timeval start_cpu, end_cpu;
- gettimeofday(&start_cpu, NULL);
- // Compute the sum on the CPU
- int sum_cpu = 0;
- for (unsigned int i = 0; i < n; i++)
- {
- sum_cpu += h_idata[i];
- }
- // Stop CPU timer
- gettimeofday(&end_cpu, NULL);
- double elapsedTime_cpu = getElapsedTime(start_cpu, end_cpu);
- // Start GPU timer
- struct timeval start_gpu, end_gpu;
- gettimeofday(&start_gpu, NULL);
- // Launch the reduction kernel
- reduceUnrolling16<<<gridSize, blockSize>>>(d_idata, d_odata, n);
- // Copy the result from device to host
- cudaMemcpy(h_odata, d_odata, size, cudaMemcpyDeviceToHost);
- // Compute the final sum on the GPU
- int sum_gpu = 0;
- for (unsigned int i = 0; i < gridSize.x; i++)
- {
- sum_gpu += h_odata[i];
- }
- // Stop GPU timer
- gettimeofday(&end_gpu, NULL);
- double elapsedTime_gpu = getElapsedTime(start_gpu, end_gpu);
- // Print the results and elapsed times
- printf("CPU Sum: %d\n", sum_cpu);
- printf("GPU Sum: %d\n", sum_gpu);
- printf("CPU Elapsed Time: %.2f ms\n", elapsedTime_cpu);
- printf("GPU Elapsed Time: %.2f ms\n", elapsedTime_gpu);
+ 
+	// Start CPU timer
+	cudaEvent_t start, stop;
+	float elapsedTimeCPU, elapsedTimeGPU;
+
+	// Measure time for CPU Matrix Multiplication
+	cudaEventCreate(&start);
+	cudaEventCreate(&stop);
+	cudaEventRecord(start, 0);
+	int sum_cpu = 0;
+	for (unsigned int i = 0; i < n; i++)
+	{
+		sum_cpu += h_idata[i];
+	}
+	cudaEventRecord(stop, 0);
+	cudaEventSynchronize(stop);
+	cudaEventElapsedTime(&elapsedTimeCPU, start, stop);
+	
+	// Compute the sum on the CPU
+	
+	// Start GPU timer
+	cudaEventCreate(&start);
+	cudaEventCreate(&stop);
+	cudaEventRecord(start, 0);
+	reduceUnrolling8 << <gridSize, blockSize >> > (d_idata, d_odata, n);
+	
+	
+	// Copy the result from device to host
+	cudaMemcpy(h_odata, d_odata, size, cudaMemcpyDeviceToHost);
+	// Compute the final sum on the GPU
+	int sum_gpu = 0;
+	for (unsigned int i = 0; i < gridSize.x; i++)
+	{
+		sum_gpu += h_odata[i];
+	}
+	cudaEventRecord(stop, 0);
+	cudaEventSynchronize(stop);
+	cudaEventElapsedTime(&elapsedTimeGPU, start, stop);
+	// Stop GPU timer
+	// Print the results and elapsed times
+	printf("CPU Sum: %d\n", sum_cpu);
+	printf("GPU Sum: %d\n", sum_gpu);
+	printf("CPU Time: %f ms\n", elapsedTimeCPU);
+	printf("GPU Time: %f ms\n", elapsedTimeGPU);
  // Free memory
  free(h_idata);
  free(h_odata);
